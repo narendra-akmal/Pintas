@@ -54,7 +54,7 @@ if (-not $wingetCheck) {
     Write-Host "[!] ERROR: WinGet tidak terpasang!" -ForegroundColor Red
     Write-Host "    Membuka Microsoft Store untuk mengunduh 'App Installer'..." -ForegroundColor Yellow
     Start-Process "ms-windows-store://pdp/?productid=9NBLGGH4NNS1" -ErrorAction SilentlyContinue
-    Read-Host "Tekan Enter untuk keluar..."
+    Read-Host "Tekan tombol apa saja untuk keluar..."
     exit
 } else {
     # Pengujian eksekusi langsung untuk memastikan WinGet tidak corrupt
@@ -62,7 +62,7 @@ if (-not $wingetCheck) {
     if ($LASTEXITCODE -ne 0) {
         Write-Host "[!] ERROR: WinGet terdeteksi namun bermasalah/corrupt." -ForegroundColor Red
         Start-Process "ms-windows-store://pdp/?productid=9NBLGGH4NNS1" -ErrorAction SilentlyContinue
-        Read-Host "Tekan Enter untuk keluar..."
+        Read-Host "Tekan tombol apa saja  untuk keluar..."
         exit
     }
     Write-Host "[✓] WinGet siap digunakan." -ForegroundColor Green
@@ -123,4 +123,4 @@ Write-Host "==================================================" -ForegroundColor
 Write-Host "        PROSES INSTALASI PINTAS SELESAI!           " -ForegroundColor Green
 Write-Host "==================================================" -ForegroundColor Green
 Write-Host ""
-Read-Host "Tekan sembarang tombol menutup..."
+Read-Host "Tekan tombol apa saja  untuk keluar..."
