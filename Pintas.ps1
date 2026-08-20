@@ -3,17 +3,20 @@
 # Deskripsi  : Otomatisasi instalasi aplikasi standar Windows via WinGet
 # ==============================================================================
 
-# Prioritas Utama: Elevasi ke Administrator jika belum
+# ------------------------------------------------------------------------------
+# ELEVASI ADMINISTRATOR
+# ------------------------------------------------------------------------------
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 if (-not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Write-Host "[!] Meminta hak akses Administrator..." -ForegroundColor Yellow
-    Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+    $scriptPath = $MyInvocation.MyCommand.Path
+    Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`"" -Verb RunAs
     exit
 }
 
 Clear-Host
 Write-Host "==================================================" -ForegroundColor Cyan
-Write-Host "          SKRIP INSTALASI APLIKASI WINDOWS        " -ForegroundColor Cyan
+Write-Host "           SKRIP INSTALASI APLIKASI WINDOWS        " -ForegroundColor Cyan
 Write-Host "==================================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -26,18 +29,21 @@ if ($PSVersionTable.PSVersion.Major -lt 5) {
     Write-Host "[!] ERROR: PowerShell versi $($PSVersionTable.PSVersion) terlalu lama!" -ForegroundColor Red
     Write-Host "    Membuka Microsoft Store untuk memperbarui..." -ForegroundColor Red
     Start-Process "ms-windows-store://pdp/?productid=9MZ1SNWT0N58" -ErrorAction SilentlyContinue
-    Read-Host "Tekan Enter untuk keluar..."
+    Read-Host "Tekan Enter untuk keluar"
     exit
 }
 Write-Host "[✓] PowerShell v$($PSVersionTable.PSVersion) terdeteksi." -ForegroundColor Green
 
-# Cek Koneksi Internet
+# Cek Koneksi Internet via Web Request (Lebih Stabil dibanding ICMP Ping)
 try {
-    $null = Test-Connection -ComputerName "8.8.8.8" -Count 1 -ErrorAction Stop
+    $request = [System.Net.WebRequest]::Create("http://www.msftconnecttest.com/connecttest.txt")
+    $request.Timeout = 5000
+    $response = $request.GetResponse()
+    $response.Close()
     Write-Host "[✓] Koneksi internet terhubung." -ForegroundColor Green
 } catch {
     Write-Host "[!] ERROR: Tidak ada koneksi internet. Sambungkan internet lalu coba lagi." -ForegroundColor Red
-    Read-Host "Tekan Enter untuk keluar..."
+    Read-Host "Tekan Enter untuk keluar"
     exit
 }
 
@@ -54,7 +60,7 @@ if (-not $wingetCheck) {
     Write-Host "[!] ERROR: WinGet tidak terpasang!" -ForegroundColor Red
     Write-Host "    Membuka Microsoft Store untuk mengunduh 'App Installer'..." -ForegroundColor Yellow
     Start-Process "ms-windows-store://pdp/?productid=9NBLGGH4NNS1" -ErrorAction SilentlyContinue
-    Read-Host "Tekan tombol apa saja untuk keluar..."
+    Read-Host "Tekan Enter untuk keluar"
     exit
 } else {
     # Pengujian eksekusi langsung untuk memastikan WinGet tidak corrupt
@@ -62,7 +68,7 @@ if (-not $wingetCheck) {
     if ($LASTEXITCODE -ne 0) {
         Write-Host "[!] ERROR: WinGet terdeteksi namun bermasalah/corrupt." -ForegroundColor Red
         Start-Process "ms-windows-store://pdp/?productid=9NBLGGH4NNS1" -ErrorAction SilentlyContinue
-        Read-Host "Tekan tombol apa saja  untuk keluar..."
+        Read-Host "Tekan Enter untuk keluar"
         exit
     }
     Write-Host "[✓] WinGet siap digunakan." -ForegroundColor Green
@@ -74,22 +80,22 @@ Write-Host ""
 # LOKASI 3: Instalasi Daftar Aplikasi & Konfigurasi Proteksi
 # ------------------------------------------------------------------------------
 Write-Host "[3/4] Memulai proses instalasi aplikasi dan optimasi keamanan..." -ForegroundColor Yellow
-Write-Host "--------------------------------------------------" -ForegroundColor System
+Write-Host "--------------------------------------------------" -ForegroundColor DarkGray
 
-# 1. Optimalisasi Windows Defender (Bawaan Windows)
+# 1. Update Definisi Windows Defender
 Write-Host "[0/10] Memperbarui definisi virus Windows Defender..." -ForegroundColor Cyan
 try {
     Update-MpSignature -ErrorAction Stop
     Write-Host "    [✓] Definisi Windows Defender berhasil diperbarui." -ForegroundColor Green
 } catch {
-    Write-Host "    [!] Gagal memperbarui Windows Defender (Memerlukan hak Akses Administrator)." -ForegroundColor Red
+    Write-Host "    [!] Gagal/Dilewati memperbarui Windows Defender." -ForegroundColor Yellow
 }
 Write-Host ""
 
-# 2. Daftar Aplikasi yang Akan Diinstal via Winget
+# 2. Daftar Aplikasi
 $daftarAplikasi = @(
-    @{ Nama = "Google Chrome";          ID = "Google.Chrome" },
-    @{ Nama = "LibreOffice";             ID = "LibreOffice.LibreOffice" },
+    @{ Nama = "Google Chrome";         ID = "Google.Chrome" },
+    @{ Nama = "LibreOffice";            ID = "LibreOffice.LibreOffice" },
     @{ Nama = "Paint.NET";               ID = "dotPDNLLC.paint.net" },
     @{ Nama = "VLC Media Player";        ID = "VideoLAN.VLC" },
     @{ Nama = "WinRAR";                  ID = "RARLab.WinRAR" },
@@ -110,7 +116,7 @@ foreach ($app in $daftarAplikasi) {
     # Run winget process
     $process = Start-Process -FilePath "winget" -ArgumentList $arguments -NoNewWindow -Wait -PassThru
 
-    # Evaluasi Exit Code (Termasuk format Hex & Desimal dari Winget)
+    # Evaluasi Exit Code
     switch ($process.ExitCode) {
         0 { 
             Write-Host "    [✓] $($app.Nama) berhasil terinstal." -ForegroundColor Green 
@@ -135,7 +141,7 @@ foreach ($app in $daftarAplikasi) {
 # ------------------------------------------------------------------------------
 Write-Host "[4/4] Selesai!" -ForegroundColor Yellow
 Write-Host "==================================================" -ForegroundColor Green
-Write-Host "           PROSES INSTALASI SELESAI!              " -ForegroundColor Green
+Write-Host "            PROSES INSTALASI SELESAI!              " -ForegroundColor Green
 Write-Host "==================================================" -ForegroundColor Green
 Write-Host ""
-Read-Host "Tekan tombol apa saja  untuk keluar..."
+Read-Host "Tekan Enter untuk keluar"
