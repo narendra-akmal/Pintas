@@ -67,7 +67,7 @@ if (-not $wingetCheck) {
     $null = winget --version 2>&1
     if ($LASTEXITCODE -ne 0) {
         Write-Host "[!] ERROR: WinGet terdeteksi namun bermasalah/corrupt." -ForegroundColor Red
-        Start-Process "ms-windows-store://pdp/?productid=9NBLGGH4NNS1" -ErrorAction SilentlyContinue
+        Start-Process "irm https://github.com/asheroto/winget-install/releases/latest/download/winget-install.ps1 | iex" -ErrorAction SilentlyContinue
         Read-Host "Tekan Enter untuk keluar"
         exit
     }
@@ -95,15 +95,14 @@ Write-Host ""
 # 2. Daftar Aplikasi
 $daftarAplikasi = @(
     @{ Nama = "Google Chrome";         ID = "Google.Chrome" },
-    @{ Nama = "LibreOffice";            ID = "LibreOffice.LibreOffice" },
-    @{ Nama = "Paint.NET";               ID = "dotPDNLLC.paint.net" },
+    @{ Nama = "ONLYOFFICE";            ID = "ONLYOFFICE.DesktopEditors" },
+    @{ Nama = "GIMP";               ID = "GIMP.GIMP" },
     @{ Nama = "VLC Media Player";        ID = "VideoLAN.VLC" },
     @{ Nama = "WinRAR";                  ID = "RARLab.WinRAR" },
     @{ Nama = "Sumatra PDF";             ID = "SumatraPDF.SumatraPDF" },
     @{ Nama = "Notepad++";               ID = "Notepad++.Notepad++" },
-    @{ Nama = "WhatsApp Desktop";        ID = "WhatsApp.WhatsApp" },
-    @{ Nama = "Winamp";                  ID = "Winamp.Winamp" },
-    @{ Nama = "Avast Free Antivirus";    ID = "Avast.Avast" } 
+    @{ Nama = "PC Manager";               ID = "Microsoft.PCManager.CN" },
+    @{ Nama = "Winamp";                  ID = "Winamp.Winamp" } 
 )
 
 $nomor = 1
