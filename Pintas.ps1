@@ -101,7 +101,7 @@ $daftarAplikasi = @(
     @{ Nama = "WinRAR";                  ID = "RARLab.WinRAR" },
     @{ Nama = "Foxit Reader";             ID = "Foxit.FoxitReader" },
     @{ Nama = "Notepad++";               ID = "Notepad++.Notepad++" },
-    @{ Nama = "PC Manager";               ID = "Microsoft.PCManager.CN" },
+    @{ Nama = "TweakPower";               ID = "KurtZimmermann.TweakPower" },
     @{ Nama = "Winamp";                  ID = "Winamp.Winamp" } 
 )
 
