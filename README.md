@@ -1,4 +1,16 @@
-# Pintas
+# <h1 align="center">Pintas  </h1>
+
+<p align="center">
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
+  <a href="https://learn.microsoft.com/powershell/"><img src="https://img.shields.io/badge/PowerShell-%E2%89%A5%205.0-blue.svg?logo=powershell&logoColor=white" alt="PowerShell"></a>
+  <a href="https://www.microsoft.com/windows"><img src="https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D6.svg?logo=windows&logoColor=white" alt="Platform"></a>
+  <a href="https://learn.microsoft.com/windows/package-manager/winget/"><img src="https://img.shields.io/badge/Package%20Manager-WinGet-0078D4.svg?logo=windows&logoColor=white" alt="Package Manager"></a>
+  <br>
+ <a href="https://www.microsoft.com/windows/comprehensive-security"><img src="https://img.shields.io/badge/Security-Windows%20Defender-00A4EF.svg?logo=windows-defender&logoColor=white" alt="Defender"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Provisioning-Automated-brightgreen.svg" alt="Automated Provisioning"></a>
+</p>  
+
+---  
 
 ## 1. Lingkup dan Tujuan
 Dokumen ini menyediakan spesifikasi teknis, pedoman instalasi, serta panduan penggunaan untuk skrip Pintas (`Pintas.ps1`). Dokumentasi ini disusun berdasarkan standar **ISO/IEC/IEEE 26510:2018** (*Systems and software engineering — Requirements for acquirers and suppliers of user documentation*).
@@ -28,12 +40,12 @@ Skrip `Pintas.ps1` dirancang menggunakan modul eksekusi berurutan (*sequential e
 ```  
 
 ### 2.1 Fitur Utama Skrip  
-Elevasi Hak Akses Otomatis: Memeriksa dan meminta hak akses Administrator (Elevated Privileges) secara otomatis saat skrip dijalankan.
-Pemeriksaan Lingkungan Pre-flight: Memvalidasi versi minimal PowerShell (v5.0) dan melakukan verifikasi koneksi internet berbasis Web Request yang stabil.  
-Auto-healing Engine WinGet: Memeriksa ketersediaan serta integritas perintah winget. Jika tidak terdeteksi atau corrupt, skrip mengunduh dan memasang perbaikan secara otomatis.  
-Optimasi Keamanan: Melakukan pembaruan definisi virus Windows Defender (Update-MpSignature) sebelum proses pengunduhan aplikasi.  
-Instalasi Senyap & Aman (Unattended): Memasang daftar aplikasi secara terautomasi menggunakan parameter silent installer (--silent, --accept-source-agreements, --accept-package-agreements).  
-Handling Exit Code: Membedakan status keberhasilan, keberadaan aplikasi versi terbaru, ketersediaan pembaruan, hingga kegagalan instalasi.  
+* **Elevasi Hak Akses Otomatis:** Memeriksa dan meminta hak akses Administrator (*Elevated Privileges*) secara otomatis saat skrip dijalankan.  
+* **Pemeriksaan Lingkungan Pre-flight:** Memvalidasi versi minimal PowerShell (v5.0) dan melakukan verifikasi koneksi internet berbasis Web Request yang stabil.  
+* **Auto-healing Engine WinGet:** Memeriksa ketersediaan serta integritas perintah `winget`. Jika tidak terdeteksi atau corrupt, skrip mengunduh dan memasang perbaikan secara otomatis.  
+* **Optimasi Keamanan:** Melakukan pembaruan definisi virus Windows Defender (`Update-MpSignature`) sebelum proses pengunduhan aplikasi.
+* **Instalasi Senyap & Aman (Unattended):** Memasang daftar aplikasi secara terautomasi menggunakan parameter silent installer (`--silent`, `--accept-source-agreements`, `--accept-package-agreements`).
+* **Handling Exit Code:** Membedakan status keberhasilan, keberadaan aplikasi versi terbaru, ketersediaan pembaruan, hingga kegagalan instalasi.   
 ## 3. Daftar Paket Aplikasi yang Dideploy   
 Tabel berikut memuat daftar aplikasi bawaan yang dipasang oleh skrip Pintas.ps1:   
 | No | Nama Aplikasi | WinGet Package ID | Deskripsi Kategori |
