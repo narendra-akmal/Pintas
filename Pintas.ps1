@@ -58,8 +58,8 @@ $wingetCheck = Get-Command winget -ErrorAction SilentlyContinue
 
 if (-not $wingetCheck) {
     Write-Host "[!] ERROR: WinGet tidak terpasang!" -ForegroundColor Red
-    Write-Host "    Membuka Microsoft Store untuk mengunduh 'App Installer'..." -ForegroundColor Yellow
-    Start-Process "ms-windows-store://pdp/?productid=9NBLGGH4NNS1" -ErrorAction SilentlyContinue
+    Write-Host "Memlulai proses instalasi WinGet..." -ForegroundColor Yellow
+    Start-Process "irm https://github.com/asheroto/winget-install/releases/latest/download/winget-install.ps1 | iex" -ErrorAction SilentlyContinue
     Read-Host "Tekan Enter untuk keluar"
     exit
 } else {
