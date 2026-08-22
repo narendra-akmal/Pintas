@@ -99,7 +99,7 @@ $daftarAplikasi = @(
     @{ Nama = "GIMP";               ID = "GIMP.GIMP" },
     @{ Nama = "VLC Media Player";        ID = "VideoLAN.VLC" },
     @{ Nama = "WinRAR";                  ID = "RARLab.WinRAR" },
-    @{ Nama = "Sumatra PDF";             ID = "SumatraPDF.SumatraPDF" },
+    @{ Nama = "Foxit Reader";             ID = "Foxit.FoxitReader" },
     @{ Nama = "Notepad++";               ID = "Notepad++.Notepad++" },
     @{ Nama = "PC Manager";               ID = "Microsoft.PCManager.CN" },
     @{ Nama = "Winamp";                  ID = "Winamp.Winamp" } 
