@@ -1,2 +1,105 @@
 # Pintas
-Skrip untuk menginstal aplikasi standar Windows secara cepat, ringkas, dan satset.
+
+## 1. Lingkup dan Tujuan
+Dokumen ini menyediakan spesifikasi teknis, pedoman instalasi, serta panduan penggunaan untuk skrip Pintas (`Pintas.ps1`). Dokumentasi ini disusun berdasarkan standar **ISO/IEC/IEEE 26510:2018** (*Systems and software engineering — Requirements for acquirers and suppliers of user documentation*).
+
+### 1.1 Pernyataan Masalah & Solusi
+Proses provisi perangkat lunak pasca-instalasi (*post-installation provisioning*) pada sistem operasi Microsoft Windows secara manual memerlukan waktu dan sering kali tidak konsisten. Penanganannya rentan terhadap kesalahan manusia (*human error*), risiko pengunduhan berkas biner tidak terverifikasi, serta ketidakseragaman versi perangkat lunak.
+
+**Pintas** dikembangkan sebagai perkakas otomatisasi berbasis PowerShell untuk melakukan provisi aplikasi secara terpusat (*batch installation*) menggunakan manajer paket resmi Windows Package Manager (**WinGet**). Skrip ini juga memperbarui definisi proteksi antivirus Windows Defender secara otomatis.
+
+---
+
+## 2. Arsitektur dan Komponen Sistem
+Skrip `Pintas.ps1` dirancang menggunakan modul eksekusi berurutan (*sequential execution pipeline*) yang memenuhi aspek keandalan (*reliability*) dan efisiensi (*efficiency*).
+
+```text
++-----------------------------------------------------------------+
+|                           Pintas.ps1                            |
++-----------------------------------------------------------------+
+                                 |
+     +---------------------------+---------------------------+
+     |                           |                           |
+     v                           v                           v
+[Modul Validasi Pre-req]   [Modul Package Manager]    [Modul Deployment & Sec]
+ - Elevasi UAC Auto         - Cek Ketersediaan WinGet  - Update Defender Signature
+ - Cek Versi PowerShell     - Auto-Fix WinGet Corrupt  - Auto-Install Apps Paket
+ - Cek Koneksi Internet     - Evaluasi Exit Codes      - Tampilan Status Execution
+```  
+
+### 2.1 Fitur Utama Skrip  
+Elevasi Hak Akses Otomatis: Memeriksa dan meminta hak akses Administrator (Elevated Privileges) secara otomatis saat skrip dijalankan.
+Pemeriksaan Lingkungan Pre-flight: Memvalidasi versi minimal PowerShell (v5.0) dan melakukan verifikasi koneksi internet berbasis Web Request yang stabil.  
+Auto-healing Engine WinGet: Memeriksa ketersediaan serta integritas perintah winget. Jika tidak terdeteksi atau corrupt, skrip mengunduh dan memasang perbaikan secara otomatis.  
+Optimasi Keamanan: Melakukan pembaruan definisi virus Windows Defender (Update-MpSignature) sebelum proses pengunduhan aplikasi.  
+Instalasi Senyap & Aman (Unattended): Memasang daftar aplikasi secara terautomasi menggunakan parameter silent installer (--silent, --accept-source-agreements, --accept-package-agreements).  
+Handling Exit Code: Membedakan status keberhasilan, keberadaan aplikasi versi terbaru, ketersediaan pembaruan, hingga kegagalan instalasi.  
+## 3. Daftar Paket Aplikasi yang Dideploy   
+Tabel berikut memuat daftar aplikasi bawaan yang dipasang oleh skrip Pintas.ps1:   
+| No | Nama Aplikasi | WinGet Package ID | Deskripsi Kategori |
+| :-: | :--- | :--- | :--- |
+| 1 | Google Chrome | `Google.Chrome` | Peramban Web |
+| 2 | ONLYOFFICE | `ONLYOFFICE.DesktopEditors` | Paket Produktivitas Perkantoran |
+| 3 | GIMP | `GIMP.GIMP` | Pengolah Grafis / Gambar |
+| 4 | VLC Media Player | `VideoLAN.VLC` | Pemutar Media Audio & Video |
+| 5 | WinRAR | `RARLab.WinRAR` | Pengarsip Berkas / Kompresi |
+| 6 | Foxit Reader | `Foxit.FoxitReader` | Pembaca Dokumen PDF |
+| 7 | Notepad++ | `Notepad++.Notepad++` | Editor Teks & Kode Sumber |
+| 8 | TweakPower | `KurtZimmermann.TweakPower` | Perkakas Optimasi Sistem |
+| 9 | Winamp | `Winamp.Winamp` | Pemutar Audio |
+
+## 4. Persyaratan Sistem  
+| Komponen | Persyaratan Minimum | Rekomendasi |
+| :--- | :--- | :--- |
+| **Sistem Operasi** | Microsoft Windows 10 (64-bit) | Microsoft Windows 10 / 11 (64-bit) |
+| **Lingkungan Eksekusi** | PowerShell 5.0 (Desktop Edition) | PowerShell 5.1 / PowerShell 7.x |
+| **Package Manager** | WinGet (Windows Package Manager) | WinGet versi terbaru |
+| **Akses Jaringan** | Koneksi Internet Aktif (HTTP/HTTPS) | Broadband / High-speed Internet |
+| **Hak Akses** | Administrator (*Elevated Privileges*) | Administrator (*Elevated Privileges*) |
+
+## 5. Panduan Penggunaan   
+### 5.1 Prasyarat Eksekusi  
+Sebelum menjalankan skrip, buka terminal PowerShell sebagai Administrator, lalu aktifkan kebijakan eksekusi skrip (Execution Policy):   
+
+
+
+```PowerShell  
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
+```  
+
+### 5.2 Cara Eksekusi  
+**Metode A: Eksekusi Langsung via Remote URL (Paling Cepat)**  
+Jalankan satu baris perintah berikut di PowerShell Administrator:  
+
+
+
+```PowerShell
+iwr -useb https://raw.githubusercontent.com/narendra-akmal/Pangkas/refs/heads/master/Pintas.ps1 | iex
+```  
+
+**Metode B: Unduh dan Jalankan Lokal** 
+Unduh berkas skrip Pintas.ps1 dari repositori:
+```PowerShell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/narendra-akmal/Pangkas/refs/heads/master/Pintas.ps1" -OutFile "Pintas.ps1"
+```  
+
+Jalankan skrip:  
+```PowerShell  
+.\Pintas.ps1
+```  
+
+## 6. Pengujian dan Verifikasi  
+Berdasarkan standar verifikasi dan validasi, keberhasilan instalasi paket dapat diperiksa melalui perintah berikut di terminal PowerShell:
+
+
+
+```PowerShell
+# 1. Memeriksa daftar aplikasi terpasang melalui WinGet
+winget list --source winget
+
+# 2. Verifikasi status pembaruan definisi Windows Defender
+Get-MpComputerStatus | Select-Object AntivirusSignatureAge, AntivirusSignatureLastUpdated
+```
+
+## 7. Lisensi dan Hak Cipta  
+Dokumen dan kode sumber ini didistribusikan di bawah MIT License. Hak Cipta (c) N. Akmal.
