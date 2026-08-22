@@ -59,7 +59,7 @@ $wingetCheck = Get-Command winget -ErrorAction SilentlyContinue
 if (-not $wingetCheck) {
     Write-Host "[!] ERROR: WinGet tidak terpasang!" -ForegroundColor Red
     Write-Host "Memlulai proses instalasi WinGet..." -ForegroundColor Yellow
-    Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"irm https://github.com/asheroto/winget-install/releases/latest/download/winget-install.ps1 | iex`"" -WindowStyle Hidden -ErrorAction SilentlyContinue
+    (irm https://github.com/asheroto/winget-install/releases/latest/download/winget-install.ps1) | iex
     Read-Host "Tekan Enter untuk keluar"
     exit
 } else {
@@ -67,7 +67,7 @@ if (-not $wingetCheck) {
     $null = winget --version 2>&1
     if ($LASTEXITCODE -ne 0) {
         Write-Host "[!] ERROR: WinGet terdeteksi namun bermasalah/corrupt." -ForegroundColor Red
-        Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"irm https://github.com/asheroto/winget-install/releases/latest/download/winget-install.ps1 | iex`"" -WindowStyle Hidden -ErrorAction SilentlyContinue
+        (irm https://github.com/asheroto/winget-install/releases/latest/download/winget-install.ps1) | iex
         Read-Host "Tekan Enter untuk keluar"
         exit
     }
