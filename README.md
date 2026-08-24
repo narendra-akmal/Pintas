@@ -86,13 +86,13 @@ Jalankan satu baris perintah berikut di PowerShell Administrator:
 
 
 ```PowerShell
-iwr -useb https://raw.githubusercontent.com/narendra-akmal/Pangkas/refs/heads/master/Pintas.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/narendra-akmal/Pintas/refs/heads/main/Pintas.ps1 | iex
 ```  
 
 **Metode B: Unduh dan Jalankan Lokal** 
 Unduh berkas skrip Pintas.ps1 dari repositori:
 ```PowerShell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/narendra-akmal/Pangkas/refs/heads/master/Pintas.ps1" -OutFile "Pintas.ps1"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/narendra-akmal/Pintas/refs/heads/main/Pintas.ps1" -OutFile "Pintas.ps1"
 ```  
 
 Jalankan skrip:  
