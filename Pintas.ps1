@@ -59,7 +59,7 @@ $wingetCheck = Get-Command winget -ErrorAction SilentlyContinue
 if (-not $wingetCheck) {
     Write-Host "[!] ERROR: WinGet tidak terpasang!" -ForegroundColor Red
     Write-Host "Memlulai proses instalasi WinGet..." -ForegroundColor Yellow
-    (irm https://github.com/asheroto/winget-install/releases/latest/download/winget-install.ps1) | iex
+    powershell -NoExit -Command "(irm https://github.com/asheroto/winget-install/releases/latest/download/winget-install.ps1) | iex"
     Read-Host "Tekan Enter untuk keluar"
     exit
 } else {
