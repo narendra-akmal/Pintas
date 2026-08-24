@@ -67,7 +67,7 @@ if (-not $wingetCheck) {
     $null = winget --version 2>&1
     if ($LASTEXITCODE -ne 0) {
         Write-Host "[!] ERROR: WinGet terdeteksi namun bermasalah/corrupt." -ForegroundColor Red
-        (irm https://github.com/asheroto/winget-install/releases/latest/download/winget-install.ps1) | iex
+        powershell -NoExit -Command "(irm https://github.com/asheroto/winget-install/releases/latest/download/winget-install.ps1) | iex"
         Read-Host "Tekan Enter untuk keluar"
         exit
     }
