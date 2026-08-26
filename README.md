@@ -1,4 +1,4 @@
-# <h1 align="center">Pintas  </h1>
+# <h1 align="center">:computer_mouse:Pintas  </h1>
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
