@@ -27,8 +27,45 @@ Write-Host "[1/4] Memeriksa lingkungan PowerShell & Internet..." -ForegroundColo
 
 if ($PSVersionTable.PSVersion.Major -lt 5) {
     Write-Host "[!] ERROR: PowerShell versi $($PSVersionTable.PSVersion) terlalu lama!" -ForegroundColor Red
-    Write-Host "    Membuka Microsoft Store untuk memperbarui..." -ForegroundColor Red
-    Start-Process "ms-windows-store://pdp/?productid=9MZ1SNWT0N58" -ErrorAction SilentlyContinue
+    Write-Host "    Memulai proses unduh dan pembaruan dari GitHub..." -ForegroundColor Yellow
+
+    # 1. Pastikan protokol keamanan TLS 1.2 aktif (Wajib untuk PowerShell versi < 5 agar bisa akses GitHub API)
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+    try {
+        # 2. Ambil metadata rilis terbaru dari API GitHub
+        $releaseApi = Invoke-RestMethod -Uri "https://api.github.com/repos/PowerShell/PowerShell/releases/latest" -ErrorAction Stop
+        
+        # 3. Cari installer MSI x64
+        $msiAsset = $releaseApi.assets | Where-Object { $_.name -like "*-win-x64.msi" } | Select-Object -First 1
+
+        if (-not $msiAsset) {
+            throw "File installer MSI x64 tidak ditemukan pada rilis GitHub terbaru."
+        }
+
+        $downloadUrl = $msiAsset.browser_download_url
+        $outputPath  = Join-Path $env:TEMP "PowerShell-Installer.msi"
+
+        # 4. Unduh installer (Menggunakan System.Net.WebClient agar cepat & tidak error 'DOM/Internet Explorer' pada PS < 5)
+        Write-Host "    Mengunduh file installer ($([math]::Round($msiAsset.size / 1MB, 2)) MB)..." -ForegroundColor Cyan
+        $webClient = New-Object System.Net.WebClient
+        $webClient.DownloadFile($downloadUrl, $outputPath)
+
+        # 5. Jalankan installer MSI dengan hak akses Administrator
+        Write-Host "    Menjalankan installer (ikuti petunjuk pada layar)..." -ForegroundColor Green
+        Start-Process msiexec.exe -ArgumentList "/i `"$outputPath`"" -Verb RunAs -Wait
+
+        # 6. Bersihkan file temp installer setelah selesai
+        if (Test-Path $outputPath) { Remove-Item $outputPath -Force }
+
+        Write-Host "[+] Instalasi selesai." -ForegroundColor Green
+    }
+    catch {
+        Write-Host "[!] GAGAL: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "    Membuka halaman unduhan GitHub secara manual di browser..." -ForegroundColor Yellow
+        Start-Process "https://github.com/PowerShell/PowerShell/releases/latest"
+    }
+
     Read-Host "Tekan Enter untuk keluar"
     exit
 }
