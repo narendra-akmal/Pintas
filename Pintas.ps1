@@ -131,7 +131,7 @@ Write-Host ""
 
 # 2. Daftar Aplikasi
 $daftarAplikasi = @(
-    @{ Nama = "Google Chrome";         ID = "Google.Chrome" },
+    @{ Nama = "Opera Browser";         ID = "XP8CF6S8G2D5T6" },
     @{ Nama = "ONLYOFFICE";            ID = "ONLYOFFICE.DesktopEditors" },
     @{ Nama = "GIMP";               ID = "GIMP.GIMP" },
     @{ Nama = "VLC Media Player";        ID = "VideoLAN.VLC" },
