@@ -138,7 +138,7 @@ $daftarAplikasi = @(
     @{ Nama = "WinRAR";                  ID = "RARLab.WinRAR" },
     @{ Nama = "Foxit Reader";             ID = "Foxit.FoxitReader" },
     @{ Nama = "Notepad++";               ID = "Notepad++.Notepad++" },
-    @{ Nama = "PC Repair";               ID = "XPDF6WVPJ5QMZD" },
+    @{ Nama = "PC Manager";               ID = "9PM860492SZD" },
     @{ Nama = "Winamp";                  ID = "Winamp.Winamp" } 
 )
 
