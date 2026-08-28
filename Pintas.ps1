@@ -133,7 +133,7 @@ Write-Host ""
 $daftarAplikasi = @(
     @{ Nama = "Opera Browser";         ID = "XP8CF6S8G2D5T6" },
     @{ Nama = "ONLYOFFICE";            ID = "ONLYOFFICE.DesktopEditors" },
-    @{ Nama = "GIMP";               ID = "GIMP.GIMP" },
+    @{ Nama = "Pixlr E";               ID = "9NWJ8JHT6WGW" },
     @{ Nama = "VLC Media Player";        ID = "VideoLAN.VLC" },
     @{ Nama = "WinRAR";                  ID = "RARLab.WinRAR" },
     @{ Nama = "Foxit Reader";             ID = "Foxit.FoxitReader" },
