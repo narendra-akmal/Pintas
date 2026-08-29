@@ -50,14 +50,14 @@ Skrip `Pintas.ps1` dirancang menggunakan modul eksekusi berurutan (*sequential e
 Tabel berikut memuat daftar aplikasi bawaan yang dipasang oleh skrip Pintas.ps1:   
 | No | Nama Aplikasi | WinGet Package ID | Deskripsi Kategori |
 | :-: | :--- | :--- | :--- |
-| 1 | Google Chrome | `Google.Chrome` | Peramban Web |
+| 1 | Opera Browser | `XP8CF6S8G2D5T6` | Peramban Web |
 | 2 | ONLYOFFICE | `ONLYOFFICE.DesktopEditors` | Paket Produktivitas Perkantoran |
-| 3 | GIMP | `GIMP.GIMP` | Pengolah Grafis / Gambar |
+| 3 | Pixlr E | `9NWJ8JHT6WGW` | Pengolah Grafis / Gambar |
 | 4 | VLC Media Player | `VideoLAN.VLC` | Pemutar Media Audio & Video |
 | 5 | WinRAR | `RARLab.WinRAR` | Pengarsip Berkas / Kompresi |
 | 6 | Foxit Reader | `Foxit.FoxitReader` | Pembaca Dokumen PDF |
 | 7 | Notepad++ | `Notepad++.Notepad++` | Editor Teks & Kode Sumber |
-| 8 | TweakPower | `KurtZimmermann.TweakPower` | Perkakas Optimasi Sistem |
+| 8 | PC Manager | `9PM860492SZD` | Perkakas Optimasi Sistem |
 | 9 | Winamp | `Winamp.Winamp` | Pemutar Audio |
 
 ## 4. Persyaratan Sistem  
